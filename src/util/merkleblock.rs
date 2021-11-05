@@ -54,7 +54,7 @@
 use prelude::*;
 
 use io;
-
+use parity_scale_codec_derive::{Decode,Encode};
 use hashes::Hash;
 use hash_types::{Txid, TxMerkleNode};
 
@@ -110,7 +110,7 @@ pub enum MerkleBlockError {
 ///  - varint     number of bytes of flag bits (1-3 bytes)
 ///  - byte[]     flag bits, packed per 8 in a byte, least significant bit first (<= 2*N-1 bits)
 /// The size constraints follow from this.
-#[derive(PartialEq, Eq, Clone, Debug)]
+#[derive(PartialEq, Eq, Clone, Debug, Decode, Encode)]
 pub struct PartialMerkleTree {
     /// The total number of transactions in the block
     num_transactions: u32,
@@ -384,7 +384,7 @@ impl Decodable for PartialMerkleTree {
 ///
 /// NOTE: This assumes that the given Block has *at least* 1 transaction. If the Block has 0 txs,
 /// it will hit an assertion.
-#[derive(PartialEq, Eq, Clone, Debug)]
+#[derive(PartialEq, Eq, Clone, Debug, Decode, Encode)]
 pub struct MerkleBlock {
     /// The block header
     pub header: BlockHeader,

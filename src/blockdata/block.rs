@@ -23,6 +23,7 @@
 use prelude::*;
 
 use core::fmt;
+use parity_scale_codec_derive::{Decode,Encode};
 
 use util;
 use util::Error::{BlockBadTarget, BlockBadProofOfWork};
@@ -39,7 +40,7 @@ use VarInt;
 
 /// A block header, which contains all the block's information except
 /// the actual transactions
-#[derive(Copy, PartialEq, Eq, Clone, Debug)]
+#[derive(Copy, PartialEq, Eq, Clone, Debug, Decode, Encode)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct BlockHeader {
     /// The protocol version. Should always be 1.
