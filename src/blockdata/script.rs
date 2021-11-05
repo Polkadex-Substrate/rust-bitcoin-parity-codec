@@ -28,7 +28,6 @@ use prelude::*;
 
 use io;
 use core::{fmt, default::Default};
-
 #[cfg(feature = "serde")] use serde;
 
 use hash_types::{PubkeyHash, WPubkeyHash, ScriptHash, WScriptHash};
@@ -38,6 +37,7 @@ use hashes::{Hash, hex};
 use policy::DUST_RELAY_TX_FEE;
 #[cfg(feature="bitcoinconsensus")] use bitcoinconsensus;
 #[cfg(feature="bitcoinconsensus")] use core::convert::From;
+use codec::{Input};
 #[cfg(feature="bitcoinconsensus")] use OutPoint;
 
 use util::ecdsa::PublicKey;
@@ -46,6 +46,24 @@ use util::address::WitnessVersion;
 #[derive(Clone, Default, PartialOrd, Ord, PartialEq, Eq, Hash)]
 /// A Bitcoin script
 pub struct Script(Box<[u8]>);
+
+impl codec::Encode for Script{
+    fn size_hint(&self) -> usize{
+        self.0.len()
+    }
+    fn encode(&self) -> Vec<u8> {
+        self.0.to_vec()
+    }
+}
+
+impl codec::Decode for Script{
+    fn decode<I: Input>(input: &mut I) -> Result<Self, codec::Error> {
+        let buffer: Vec<u8> = Vec::decode(input)?;
+        Ok(Script(buffer.into_boxed_slice()))
+
+    }
+}
+
 
 impl AsRef<[u8]> for Script {
     fn as_ref(&self) -> &[u8] {

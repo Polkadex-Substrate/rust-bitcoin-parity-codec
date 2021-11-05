@@ -27,6 +27,7 @@ use prelude::*;
 
 use io;
 use core::{fmt, str, default::Default};
+
 #[cfg(feature = "std")] use std::error;
 
 use hashes::{self, Hash, sha256d};
@@ -40,9 +41,10 @@ use consensus::{encode, Decodable, Encodable};
 use consensus::encode::MAX_VEC_SIZE;
 use hash_types::{SigHash, Txid, Wtxid};
 use VarInt;
+use parity_scale_codec_derive::{Decode,Encode};
 
 /// A reference to a transaction output
-#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Decode, Encode, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub struct OutPoint {
     /// The referenced transaction's txid
     pub txid: Txid,
@@ -179,7 +181,7 @@ impl ::core::str::FromStr for OutPoint {
 }
 
 /// A transaction input, which defines old coins to be consumed
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
+#[derive(Clone, PartialEq, Decode, Encode, Eq, PartialOrd, Ord, Debug, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct TxIn {
     /// The reference to the previous output that is being used an an input
@@ -212,7 +214,7 @@ impl Default for TxIn {
 }
 
 /// A transaction output, which defines new coins to be created from old ones.
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
+#[derive(Clone, PartialEq, Decode, Encode, Eq, PartialOrd, Ord, Debug, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct TxOut {
     /// The value of the output, in satoshis
@@ -258,7 +260,7 @@ impl Default for TxOut {
 ///
 /// We therefore deviate from the spec by always using the Segwit witness encoding
 /// for 0-input transactions, which results in unambiguously parseable transactions.
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
+#[derive(Clone, PartialEq, Decode, Encode, Eq, PartialOrd, Ord, Debug, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Transaction {
     /// The protocol version, is currently expected to be 1 or 2 (BIP 68).

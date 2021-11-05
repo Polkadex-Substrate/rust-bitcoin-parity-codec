@@ -72,6 +72,8 @@ compile_error!("rust-bitcoin currently only supports architectures with pointers
 extern crate alloc;
 #[cfg(feature = "no-std")]
 extern crate core2;
+extern crate codec;
+extern crate parity_scale_codec_derive;
 
 #[cfg(any(feature = "std", test))]
 extern crate core; // for Rust 1.29 and no-std tests

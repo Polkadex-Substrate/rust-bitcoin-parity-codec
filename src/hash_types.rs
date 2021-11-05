@@ -34,7 +34,7 @@ macro_rules! impl_hashencode {
         }
     }
 }
-
+use parity_scale_codec_derive::{Decode, Encode};
 hash_newtype!(Txid, sha256d::Hash, 32, doc="A bitcoin transaction hash/transaction ID.");
 hash_newtype!(Wtxid, sha256d::Hash, 32, doc="A bitcoin witness transaction ID.");
 hash_newtype!(BlockHash, sha256d::Hash, 32, doc="A bitcoin block hash.");

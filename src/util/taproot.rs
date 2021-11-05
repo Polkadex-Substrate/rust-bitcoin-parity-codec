@@ -15,7 +15,7 @@
 //!
 
 use hashes::{sha256, sha256t, Hash};
-
+use parity_scale_codec_derive::{Decode,Encode};
 /// The SHA-256 midstate value for the TapLeaf hash.
 const MIDSTATE_TAPLEAF: [u8; 32] = [
     156, 224, 228, 230, 124, 17, 108, 57, 56, 179, 202, 242, 195, 15, 80, 137, 211, 243, 147, 108,
